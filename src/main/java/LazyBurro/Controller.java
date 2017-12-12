@@ -1,6 +1,7 @@
 package LazyBurro;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -9,13 +10,15 @@ import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 public class Controller {
+    @FXML private ComboBox<String> requestMethod;
+
     @FXML private TextField requestUrl;
 
     @FXML private TextArea requestOutput;
 
     @FXML private void submitRequest(ActionEvent event) {
         try {
-            requestOutput.setText(ProcessRequest.sendGet(requestUrl.getText()));
+            requestOutput.setText(ProcessRequest.sendGet(requestMethod.getValue(), requestUrl.getText()));
         } catch(Exception e) {
             System.out.println(e);
         }

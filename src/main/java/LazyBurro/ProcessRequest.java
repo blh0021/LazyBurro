@@ -11,19 +11,18 @@ public class ProcessRequest {
     private static String USER_AGENT = "Mozilla/5.0";
 
     // HTTP GET request
-    public static String sendGet(String url) throws Exception {
+    public static String sendGet(String method, String url) throws Exception {
 
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-        // optional default is GET
-        con.setRequestMethod("GET");
+        con.setRequestMethod(method);
 
         //add request header
         con.setRequestProperty("User-Agent", USER_AGENT);
 
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("\nSending " + method + " request to URL : " + url);
         System.out.println("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
