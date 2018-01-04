@@ -1,5 +1,7 @@
 package LazyBurro;
 
+import LazyBurro.Request;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
@@ -16,9 +18,14 @@ public class Controller {
 
     @FXML private TextArea requestOutput;
 
+    @FXML private TextArea responseHeaders;
+
     @FXML private void submitRequest(ActionEvent event) {
+        Request request = new Request(requestMethod.getValue(), requestUrl.getText());
         try {
-            requestOutput.setText(ProcessRequest.sendGet(requestMethod.getValue(), requestUrl.getText()));
+            request.makeRequestCall();
+            requestOutput.setText(request.formatResponse());
+            responseHeaders.setText(request.getHeaders());
         } catch(Exception e) {
             System.out.println(e);
         }
