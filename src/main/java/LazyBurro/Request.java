@@ -16,14 +16,16 @@ public class Request {
     private int responseCode;
     private String contentType;
     private Map<String, List<String>> headers;
+    private Map<String, String> requestHeaders;
 
     private static String USER_AGENT = "LazyBurro/0.0.1";
 
     public Request() {}
 
-    public Request(String method, String url) {
+    public Request(String method, String url, String requestHeaders) {
         this.method = method;
         this.url = url;
+        this.requestHeaders = JSON.parseSimpleJson(requestHeaders);
     }
 
     public void setMethod(String method) {
@@ -68,10 +70,13 @@ public class Request {
 
         //add request header
         con.setRequestProperty("User-Agent", USER_AGENT);
+        for (Map.Entry<String, String> rh : this.requestHeaders.entrySet()) {
+            con.setRequestProperty(rh.getKey(), rh.getValue());
+        }
 
         this.responseCode = con.getResponseCode();
-        System.out.println("\nSending " + this.method + " request to URL : " + this.url);
-        System.out.println("Response Code : " + this.responseCode);
+        //System.out.println("\nSending " + this.method + " request to URL : " + this.url);
+        //System.out.println("Response Code : " + this.responseCode);
         this.headers = con.getHeaderFields();
         this.contentType = this.headers.get("Content-Type").get(0).toString();
 

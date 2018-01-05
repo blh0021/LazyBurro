@@ -18,10 +18,12 @@ public class Controller {
 
     @FXML private TextArea requestOutput;
 
+    @FXML private TextArea requestHeaders;
+
     @FXML private TextArea responseHeaders;
 
     @FXML private void submitRequest(ActionEvent event) {
-        Request request = new Request(requestMethod.getValue(), requestUrl.getText());
+        Request request = new Request(requestMethod.getValue(), requestUrl.getText(), requestHeaders.getText());
         try {
             request.makeRequestCall();
             requestOutput.setText(request.formatResponse());
