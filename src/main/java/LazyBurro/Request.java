@@ -25,7 +25,12 @@ public class Request {
     public Request(String method, String url, String requestHeaders) {
         this.method = method;
         this.url = url;
-        this.requestHeaders = JSON.parseSimpleJson(requestHeaders);
+        try {
+            this.requestHeaders = JSON.parseSimpleJson(requestHeaders);
+        } catch(Exception e) {
+            this.requestHeaders = JSON.parseSimpleJson("{}");
+        }
+
     }
 
     public void setMethod(String method) {
