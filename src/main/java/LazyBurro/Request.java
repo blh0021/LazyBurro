@@ -13,6 +13,7 @@ public class Request {
     private String method;
     private String url;
     private String response;
+    public String errors;
     private int responseCode;
     private String contentType;
     private Map<String, List<String>> headers;
@@ -43,6 +44,10 @@ public class Request {
 
     public String getResponse() {
         return this.response;
+    }
+
+    public int getResponseCode() {
+        return this.responseCode;
     }
 
     public String getContentType() {
@@ -85,14 +90,20 @@ public class Request {
         this.headers = con.getHeaderFields();
         this.contentType = this.headers.get("Content-Type").get(0).toString();
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
 
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            this.response = response.toString();
+
+        } catch (Exception e) {
+            this.errors = e.toString();
+            this.response="";
         }
-        in.close();
-        this.response = response.toString();
     }
 }
