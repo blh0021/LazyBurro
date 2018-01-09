@@ -37,7 +37,6 @@ public class JSON {
     public static String mapToString(Map<String, List<String>> mapList) {
         String tmp = "{";
         int mlength = mapList.size();
-        System.out.println(mlength);
         int ct = 1;
         for (Map.Entry<String, List<String>> element : mapList.entrySet()) {
             tmp += jsonElementString(element.getKey(), element.getValue().get(0));
@@ -53,5 +52,11 @@ public class JSON {
     public static String objectToString(Object obj) {
         Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
         return gson.toJson(obj);
+    }
+
+    public static Object stringtoObject(String json) {
+        Gson gson = new Gson();
+        Object obj = gson.fromJson(json, Object.class);
+        return obj;
     }
 }

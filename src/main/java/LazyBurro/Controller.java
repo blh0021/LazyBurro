@@ -46,22 +46,50 @@ public class Controller {
     @FXML private void openApplication(ActionEvent event) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open File");
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JSON", "*.json"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
         File file = chooser.showOpenDialog(new Stage());
-        logger(file.toString());
-        FileUtils fu = new FileUtils();
-        ConfigFile cfg = new ConfigFile();
-        try {
-            cfg = fu.openJsonFile(file.toString());
-        } catch(IOException ioe) {
-            logger(ioe.toString());
+        if (file != null) {
+            logger(file.toString());
+            FileUtils fu = new FileUtils();
+            ConfigFile cfg = new ConfigFile();
+            try {
+                cfg = fu.openJsonFile(file.toString());
+            } catch (IOException ioe) {
+                logger(ioe.toString());
+            }
+            requestUrl.setText(cfg.baseUrl + cfg.path);
+            requestHeaders.setText(JSON.objectToString(cfg.header));
+            requestMethod.setValue(cfg.method);
         }
-        requestUrl.setText(cfg.baseUrl + cfg.path);
-        requestHeaders.setText(JSON.objectToString(cfg.header));
-        requestMethod.setValue(cfg.method);
     }
 
     @FXML private void saveApplication(ActionEvent event) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Save File");
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JSON", "*.json"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+        File file = chooser.showSaveDialog(new Stage());
+        if (file != null) {
+            ConfigFile cfg = new ConfigFile();
+            cfg.baseUrl = requestUrl.getText();
+            cfg.header = JSON.stringtoObject(requestHeaders.getText());
+            cfg.method = requestMethod.getValue();
 
+            FileUtils fu = new FileUtils();
+            try {
+                fu.saveFile(file, cfg);
+                logger("Saved file to: " + file.toString());
+            } catch(IOException ioe) {
+                logger(ioe.toString());
+            }
+
+
+        }
     }
 
     @FXML private void closeApplication(ActionEvent event) {
