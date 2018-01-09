@@ -55,7 +55,7 @@ public class Request {
     }
 
     public String getHeaders() {
-        return this.headers.toString();
+        return JSON.prettyPrint(JSON.mapToString(this.headers));
     }
 
     public String formatResponse() {
