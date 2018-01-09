@@ -36,7 +36,7 @@
         </MenuBar>
     </top>
     <center>
-        <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
                 <ComboBox fx:id="requestMethod" layoutX="10.0" layoutY="10.0" prefWidth="80.0" promptText="---">
                     <items>
@@ -48,13 +48,13 @@
                 </ComboBox>
                 <TextField id="URL" fx:id="requestUrl" layoutX="100.0" layoutY="10.0" prefHeight="27.0" prefWidth="400.0" />
                 <Button id="SubmitRequest" layoutX="521.0" layoutY="9.0" mnemonicParsing="false" onAction="#submitRequest" text="Submit" />
-            <TabPane layoutY="39.0" prefHeight="335.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane layoutY="40.0" prefHeight="335.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0" AnchorPane.bottomAnchor="0.0">
                 <tabs>
                     <Tab text="Request Headers">
                       <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0">
                               <children>
-                                  <TextArea id="OutputText" fx:id="requestHeaders" prefHeight="300.0" prefWidth="580.0" />
+                                  <TextArea id="OutputText" fx:id="requestHeaders" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                               </children>
                           </AnchorPane>
                       </content>
@@ -63,7 +63,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                       <children>
-                          <TextArea id="OutputText" fx:id="responseHeaders" prefHeight="300.0" prefWidth="580.0" />
+                          <TextArea id="OutputText" fx:id="responseHeaders" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                       </children>
                     </AnchorPane>
                   </content>
@@ -72,7 +72,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
-                                  <TextArea id="OutputText" fx:id="requestOutput" prefHeight="300.0" prefWidth="580.0" />
+                                  <TextArea id="OutputText" fx:id="requestOutput" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                            </children>
                         </AnchorPane>
                   </content>
@@ -81,7 +81,7 @@
                         <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0">
                                 <children>
-                                    <TextArea id="OutputText" fx:id="logOutput" prefHeight="300.0" prefWidth="580.0" />
+                                    <TextArea id="OutputText" fx:id="logOutput" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                 </children>
                             </AnchorPane>
                         </content>
@@ -89,6 +89,6 @@
                 </tabs>
             </TabPane>
             </children>
-        </Pane>
+        </AnchorPane>
     </center>
 </BorderPane>
