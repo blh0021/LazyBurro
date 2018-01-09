@@ -2,6 +2,7 @@ package LazyBurro;
 
 import LazyBurro.Config.ConfigFile;
 import LazyBurro.Helper.FileUtils;
+import LazyBurro.Helper.JSON;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 
@@ -55,7 +56,7 @@ public class Controller {
             logger(ioe.toString());
         }
         requestUrl.setText(cfg.baseUrl);
-        requestHeaders.setText(cfg.header.toString());
+        requestHeaders.setText(JSON.objectToString(cfg.header));
         requestMethod.setValue(cfg.method);
     }
 

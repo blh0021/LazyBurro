@@ -28,4 +28,9 @@ public class JSON {
         }
         return flatObj;
     }
+
+    public static String objectToString(Object obj) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(obj);
+    }
 }
