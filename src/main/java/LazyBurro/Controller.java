@@ -55,7 +55,7 @@ public class Controller {
         } catch(IOException ioe) {
             logger(ioe.toString());
         }
-        requestUrl.setText(cfg.baseUrl);
+        requestUrl.setText(cfg.baseUrl + cfg.path);
         requestHeaders.setText(JSON.objectToString(cfg.header));
         requestMethod.setValue(cfg.method);
     }
