@@ -35,12 +35,9 @@ public class Controller {
             request.makeRequestCall();
             requestOutput.setText(request.formatResponse());
             responseHeaders.setText(request.getHeaders());
-            logger(String.valueOf(request.getResponseCode()));
-            Timestamp ts = new Timestamp(System.currentTimeMillis());
-            logOutput.appendText(ts + " > Response Code: " + String.valueOf(request.getResponseCode())+"\n");
+            logger("Response Code: " + String.valueOf(request.getResponseCode()));
         } catch(Exception e) {
-            Timestamp ts = new Timestamp(System.currentTimeMillis());
-            logOutput.appendText(ts + " > " + e.toString() + "\n");
+            logger(e.toString());
             e.printStackTrace();
         }
     }
