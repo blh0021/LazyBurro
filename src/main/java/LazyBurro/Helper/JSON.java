@@ -10,12 +10,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 public class JSON {
     public static String prettyPrint(String json) {
         Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+
         JsonParser jp = new JsonParser();
-        JsonElement je = jp.parse(json);
-        return gson.toJson(je);
+        try {
+            JsonElement je = jp.parse(json);
+            return gson.toJson(je);
+        } catch(Exception e) {
+            return json;
+        }
     }
 
     public static Map<String, String> parseSimpleJson(String json) {
@@ -39,7 +46,8 @@ public class JSON {
         int mlength = mapList.size();
         int ct = 1;
         for (Map.Entry<String, List<String>> element : mapList.entrySet()) {
-            tmp += jsonElementString(element.getKey(), element.getValue().get(0));
+            String result = StringEscapeUtils.escapeJava(element.getValue().get(0));
+            tmp += jsonElementString(element.getKey(), result);
             if (ct < mlength) {
                 tmp += ",";
             }
