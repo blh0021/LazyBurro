@@ -6,6 +6,7 @@ import LazyBurro.Helper.XML;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ public class Request {
     private String url;
     private String response;
     public String errors;
+    public long responseTime;
     private int responseCode;
     private String contentType;
     private Map<String, List<String>> headers;
@@ -74,6 +76,7 @@ public class Request {
 
     public void makeRequestCall() throws Exception {
         URL obj = new URL(this.url);
+        Timestamp start = new Timestamp(System.currentTimeMillis());
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         con.setRequestMethod(this.method);
@@ -85,8 +88,6 @@ public class Request {
         }
 
         this.responseCode = con.getResponseCode();
-        //System.out.println("\nSending " + this.method + " request to URL : " + this.url);
-        //System.out.println("Response Code : " + this.responseCode);
         this.headers = con.getHeaderFields();
         this.contentType = this.headers.get("Content-Type").get(0).toString();
 
@@ -105,5 +106,7 @@ public class Request {
             this.errors = e.toString();
             this.response="";
         }
+        Timestamp end = new Timestamp(System.currentTimeMillis());
+        responseTime = end.getTime() - start.getTime();
     }
 }

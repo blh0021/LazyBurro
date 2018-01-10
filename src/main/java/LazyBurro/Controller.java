@@ -41,6 +41,7 @@ public class Controller {
             logger(e.toString());
             e.printStackTrace();
         }
+        logger("Request returned response in: " + request.responseTime + "ms");
     }
 
     @FXML private void openApplication(ActionEvent event) {
