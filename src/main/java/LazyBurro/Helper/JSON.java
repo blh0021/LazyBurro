@@ -1,40 +1,29 @@
 package LazyBurro.Helper;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class JSON {
     public static String prettyPrint(String json) {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-
-        JsonParser jp = new JsonParser();
-        try {
-            JsonElement je = jp.parse(json);
-            return gson.toJson(je);
-        } catch(Exception e) {
-            return json;
+        if (json.charAt(0) == '[') {
+            JSONArray jsa = new JSONArray(json);
+            return prettyPrint(jsa);
+        } else {
+            JSONObject jsObject = new JSONObject(json);
+            return prettyPrint(jsObject);
         }
     }
 
-    public static Map<String, String> parseSimpleJson(String json) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser jp = new JsonParser();
-        JsonElement je = jp.parse(json);
-        Set<Map.Entry<String, JsonElement>> obj = je.getAsJsonObject().entrySet();
-        Map<String, String> flatObj = new HashMap<String, String>();
-        for (Map.Entry<String, JsonElement> element : je.getAsJsonObject().entrySet()) {
-            flatObj.put(element.getKey(), element.getValue().getAsString());
-        }
-        return flatObj;
+    public static String prettyPrint(JSONObject json) {
+        return json.toString(4);
+    }
+
+    public static String prettyPrint(JSONArray json) {
+        return json.toString(4);
     }
 
     private static String jsonElementString(String key, String val) {
@@ -57,14 +46,4 @@ public class JSON {
         return tmp;
     }
 
-    public static String objectToString(Object obj) {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
-        return gson.toJson(obj);
-    }
-
-    public static Object stringtoObject(String json) {
-        Gson gson = new Gson();
-        Object obj = gson.fromJson(json, Object.class);
-        return obj;
-    }
 }

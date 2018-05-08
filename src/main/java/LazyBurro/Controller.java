@@ -1,17 +1,15 @@
 package LazyBurro;
 
-import LazyBurro.Config.ConfigFile;
 import LazyBurro.Helper.FileUtils;
-import LazyBurro.Helper.JSON;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 import javafx.event.ActionEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +18,6 @@ import java.sql.Timestamp;
 public class Controller {
     @FXML private TextArea logOutput;
 
-    @FXML private ComboBox<String> requestMethod;
-
-    @FXML private TextField requestUrl;
-
     @FXML private TextArea requestOutput;
 
     @FXML private TextArea requestHeaders;
@@ -31,17 +25,15 @@ public class Controller {
     @FXML private TextArea responseHeaders;
 
     @FXML private void submitRequest(ActionEvent event) {
-        Request request = new Request(requestMethod.getValue(), requestUrl.getText(), requestHeaders.getText());
+        RequestHandler rh = new RequestHandler(requestHeaders.getText());
         try {
-            request.makeRequestCall();
-            requestOutput.setText(request.formatResponse());
-            responseHeaders.setText(request.getHeaders());
-            logger("Response Code: " + String.valueOf(request.getResponseCode()));
+            rh.makeRequestCall();
+            requestOutput.setText(rh.formatResponse());
+            responseHeaders.setText(rh.getHeaders());
         } catch(Exception e) {
-            logger(e.toString());
-            e.printStackTrace();
+            logger(e.getMessage());
         }
-        logger("Request returned response in: " + request.responseTime + "ms");
+        logger("Request returned response in: " + rh.getResponseTime() + "ms");
     }
 
     @FXML private void openApplication(ActionEvent event) {
@@ -55,15 +47,13 @@ public class Controller {
         if (file != null) {
             logger(file.toString());
             FileUtils fu = new FileUtils();
-            ConfigFile cfg = new ConfigFile();
+            JSONObject cfg=new JSONObject();
             try {
                 cfg = fu.openJsonFile(file.toString());
             } catch (IOException ioe) {
                 logger(ioe.toString());
             }
-            requestUrl.setText(cfg.baseUrl + cfg.path);
-            requestHeaders.setText(JSON.objectToString(cfg.header));
-            requestMethod.setValue(cfg.method);
+            requestHeaders.setText(cfg.toString(4));
         }
     }
 
@@ -76,30 +66,25 @@ public class Controller {
         );
         File file = chooser.showSaveDialog(new Stage());
         if (file != null) {
-            ConfigFile cfg = new ConfigFile();
-            cfg.baseUrl = requestUrl.getText();
-            cfg.header = JSON.stringtoObject(requestHeaders.getText());
-            cfg.method = requestMethod.getValue();
+            String req = requestHeaders.getText();
 
             FileUtils fu = new FileUtils();
             try {
-                fu.saveFile(file, cfg);
+                fu.saveFile(file, req);
                 logger("Saved file to: " + file.toString());
             } catch(IOException ioe) {
                 logger(ioe.toString());
             }
-
-
         }
     }
 
     @FXML private void closeApplication(ActionEvent event) {
-        Stage stage = (Stage) requestUrl.getScene().getWindow();
+        Stage stage = (Stage) requestOutput.getScene().getWindow();
         stage.close();
     }
 
     @FXML private void aboutLazyBurro(ActionEvent event) {
-        requestOutput.setText("Lazy Burro v1");
+        requestOutput.setText("Lazy Burro v0.0.1");
     }
 
     @FXML private void logger(String txt) {

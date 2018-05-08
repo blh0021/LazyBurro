@@ -3,6 +3,7 @@ package LazyBurro.Helper;
 import LazyBurro.Config.ConfigFile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,23 +18,17 @@ public class FileUtils {
         return new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
     }
 
-    public ConfigFile processJson(String data) {
-        Gson gson = new Gson();
-        ConfigFile cfg = gson.fromJson(data, ConfigFile.class);
-        return cfg;
-    }
-
-    public ConfigFile openJsonFile(String filename) throws IOException{
+    public JSONObject openJsonFile(String filename) throws IOException{
         String jsonInString = openFile(filename);
-        return processJson(jsonInString);
+        return new JSONObject(jsonInString);
     }
 
-    public void saveFile(File file, ConfigFile cfg) throws IOException {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
+    public void saveFile(File file, String cfg) throws IOException {
+        //Gson gson = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create();
         //gson.toJson(cfg, new FileWriter(file));
-        String data = gson.toJson(cfg);
+        //String data = gson.toJson(cfg);
         PrintWriter writer = new PrintWriter(file.toString(), "UTF-8");
-        writer.println(data);
+        writer.println(cfg);
         writer.close();
     }
 }
