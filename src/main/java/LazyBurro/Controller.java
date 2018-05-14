@@ -31,7 +31,7 @@ public class Controller {
             requestOutput.setText(rh.formatResponse());
             responseHeaders.setText(rh.getHeaders());
         } catch(Exception e) {
-            logger(e.getMessage());
+            logger("ERROR: " + e.getMessage());
         }
         logger("Request returned response in: " + rh.getResponseTime() + "ms");
     }

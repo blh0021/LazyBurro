@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.github.blh0021</groupId>
             <artifactId>request-java</artifactId>
-            <version>5a1668b11bbe0d0269217158e18923d55ca6e3c6</version>
+            <version>3842b20aabcb2830583ff1defa282234cd250544</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -76,6 +76,29 @@
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>LazyBurro.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
